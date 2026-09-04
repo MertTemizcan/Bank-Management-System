@@ -5,48 +5,52 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        
         Scanner scanner = new Scanner(System.in);
-        
-        SavingsAccount savingAccount1 = new SavingsAccount("Mert", "Temizcan", 4000.0, "TR196847", 100.0);
+        SavingsAccount account = new SavingsAccount("Mert", "Temizcan", 4000.0, "TR196847", 100.0);
         
         boolean running = true;
 
         while (running) {
-            System.out.println("Lütfen yapmak istediğiniz işlemi seçiniz");
-            System.out.println("1. Hesap bilgilerini göster");
-            System.out.println("2. Para gönder");
-            System.out.println("3. Para çek");
-            System.out.println("4. Bonus Puanımı Sorgula");
+            System.out.println("\n--- İŞLEM MENÜSÜ ---");
+            System.out.println("1. Hesap Bilgilerini Göster");
+            System.out.println("2. Para Çek");
+            System.out.println("3. Para Yatır");
+            System.out.println("4. Bonus Puanını Sorgula");
             System.out.println("0. Çıkış");
-            System.out.print("\nSeçiminiz: ");
+            System.out.print("Seçiminiz: ");
             
             int choice = scanner.nextInt();
-            System.out.println(); 
+            scanner.nextLine();
 
-            switch (choice) {
-                case 1:
-                    savingAccount1.showInfos();
-                    System.out.println();
-                    break;
-                case 2:
-                    savingAccount1.sendMoney();
-                    System.out.println();
-                    break;
-                case 3:
-                    savingAccount1.withdrawMoney();
-                    System.out.println();
-                    break;
-                case 4:
-                    System.out.println("Mevcut bonus puanınız: " + savingAccount1.getBonusPoint());
-                    System.out.println();
-                    break;
-                case 0:
-                    System.out.println("Sistemden çıkış yapıldı sağlıklı günler dileriz");
-                    running = false;
-                    break;
-                default:
-                    System.out.println("Geçersiz bir seçim yaptınız lütfen tekrar deneyin");
+            try {
+                switch (choice) {
+                    case 1:
+                        System.out.println(account);
+                        break;
+                    case 2:
+                        System.out.print("Çekmek istediğiniz tutar: ");
+                        double withdrawAmount = scanner.nextDouble();
+                        account.withdraw(withdrawAmount);
+                        System.out.printf("İşlem başarılı. Yeni bakiye: %.2f TL%n", account.getBalance());
+                        break;
+                    case 3:
+                        System.out.print("Yatırmak istediğiniz tutar: ");
+                        double depositAmount = scanner.nextDouble();
+                        account.deposit(depositAmount);
+                        System.out.printf("İşlem başarılı. Yeni bakiye: %.2f TL%n", account.getBalance());
+                        break;
+                    case 4:
+                        System.out.printf("Mevcut bonus puanınız: %.2f%n", account.getBonusPoint());
+                        break;
+                    case 0:
+                        System.out.println("Çıkış yapıldı.");
+                        running = false;
+                        break;
+                    default:
+                        System.out.println("Geçersiz seçim.");
+                }
+            } catch (IllegalArgumentException | IllegalStateException e) {
+                System.out.println("Hata: " + e.getMessage());
             }
         }
         
