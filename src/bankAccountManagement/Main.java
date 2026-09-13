@@ -6,8 +6,10 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+
         SavingsAccount account = new SavingsAccount("Mert", "Temizcan", 4000.0, "TR196847", 100.0);
-        
+        SavingsAccount targetAccount = new SavingsAccount("Ramazan", "Demir", 6000.0, "TR798564", 100.0);
+
         boolean running = true;
 
         while (running) {
@@ -16,9 +18,10 @@ public class Main {
             System.out.println("2. Para Çek");
             System.out.println("3. Para Yatır");
             System.out.println("4. Bonus Puanını Sorgula");
+            System.out.println("5. Para Transferi Yap");
             System.out.println("0. Çıkış");
             System.out.print("Seçiminiz: ");
-            
+
             int choice = scanner.nextInt();
             scanner.nextLine();
 
@@ -42,6 +45,12 @@ public class Main {
                     case 4:
                         System.out.printf("Mevcut bonus puanınız: %.2f%n", account.getBonusPoint());
                         break;
+                    case 5:
+                        System.out.println("Transfer etmek istediğiniz tutarı giriniz: ");
+                        double transferAmount = scanner.nextDouble();
+                        account.transferTo(targetAccount, transferAmount);
+                        System.out.printf("%s kişisine %.2f TL gönderildi. Güncel bakiyeniz: %.2f TL%n", targetAccount.getName(), transferAmount, account.getBalance());
+                        break;
                     case 0:
                         System.out.println("Çıkış yapıldı.");
                         running = false;
@@ -53,7 +62,7 @@ public class Main {
                 System.out.println("Hata: " + e.getMessage());
             }
         }
-        
+
         scanner.close();
     }
 }
