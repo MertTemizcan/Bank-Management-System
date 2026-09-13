@@ -2,16 +2,30 @@ package bankAccountManagement;
 
 public class Account {
 
+    private final String id;
     private String name;
     private String surname;
     private double balance;
     private final String accountNumber;
 
-    public Account(String name, String surname, double balance, String accountNumber) {
+    public Account(String id, String name, String surname, double balance, String accountNumber) {
+        this.id = validateId(id);
         setName(name);
         setSurname(surname);
         setBalance(balance);
         this.accountNumber = accountNumber;
+    }
+
+    public String validateId(String id) {
+        if (id == null || id.trim().isEmpty()) {
+            throw new IllegalArgumentException("ID boş bırakılamaz");
+        }
+
+        return id.trim();
+    }
+
+    public String getId() {
+        return this.id;
     }
 
     public String getName() {

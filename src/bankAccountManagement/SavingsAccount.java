@@ -4,8 +4,8 @@ public class SavingsAccount extends Account {
 
     private double bonusPoint;
 
-    public SavingsAccount(String name, String surname, double balance, String accountNumber, double bonusPoint) {
-        super(name, surname, balance, accountNumber);
+    public SavingsAccount(String id, String name, String surname, double balance, String accountNumber, double bonusPoint) {
+        super(id, name, surname, balance, accountNumber);
         setBonusPoint(bonusPoint);
     }
 
