@@ -13,15 +13,23 @@ public class Account {
         setName(name);
         setSurname(surname);
         setBalance(balance);
-        this.accountNumber = accountNumber;
+        this.accountNumber = validateAccountNumber(accountNumber);
     }
 
-    public String validateId(String id) {
+    private String validateId(String id) {
         if (id == null || id.trim().isEmpty()) {
             throw new IllegalArgumentException("ID boş bırakılamaz");
         }
 
         return id.trim();
+    }
+
+    private String validateAccountNumber(String accountNumber) {
+        if (accountNumber == null || accountNumber.trim().isEmpty()) {
+            throw new IllegalArgumentException("Hesap numarası boş geçilemez");
+        }
+
+        return accountNumber.trim();
     }
 
     public String getId() {
