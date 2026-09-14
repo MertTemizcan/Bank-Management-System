@@ -1,4 +1,5 @@
 package bankAccountManagement;
+import java.util.Random;
 
 public class Account {
 
@@ -7,6 +8,7 @@ public class Account {
     private String surname;
     private double balance;
     private final String accountNumber;
+    private final String iban;
 
     public Account(String id, String name, String surname, double balance, String accountNumber) {
         this.id = validateId(id);
@@ -14,6 +16,7 @@ public class Account {
         setSurname(surname);
         setBalance(balance);
         this.accountNumber = validateAccountNumber(accountNumber);
+        this.iban = generateIban();
     }
 
     private String validateId(String id) {
@@ -30,6 +33,17 @@ public class Account {
         }
 
         return accountNumber.trim();
+    }
+
+    private String generateIban() {
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder();
+        sb.append("TR");
+        for(int i = 0; i < 24; i++) {
+            sb.append(random.nextInt(10));
+        }
+
+        return sb.toString();
     }
 
     public String getId() {
@@ -73,6 +87,10 @@ public class Account {
         return accountNumber;
     }
 
+    public String getIban() {
+        return this.iban;
+    }
+
     public void withdraw(double amount) {
         if (amount <= 0) {
             throw new IllegalArgumentException("Çekilecek tutar sıfırdan büyük olmalıdır.");
@@ -100,6 +118,6 @@ public class Account {
 
     @Override
     public String toString() {
-        return String.format("Ad: %s %s | Bakiye: %.2f TL | Hesap No: %s", name, surname, balance, accountNumber);
+        return String.format("Ad: %s %s | Bakiye: %.2f TL | Hesap No: %s | IBAN: %s", name, surname, balance, accountNumber,iban);
     }
 }
