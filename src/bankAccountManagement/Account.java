@@ -10,12 +10,12 @@ public class Account {
     private final String accountNumber;
     private final String iban;
 
-    public Account(String id, String name, String surname, double balance, String accountNumber) {
+    public Account(String id, String name, String surname) {
         this.id = validateId(id);
         setName(name);
         setSurname(surname);
-        setBalance(balance);
-        this.accountNumber = validateAccountNumber(accountNumber);
+        this.balance = 0;
+        this.accountNumber = generateAccountNumber();
         this.iban = generateIban();
     }
 
@@ -27,19 +27,22 @@ public class Account {
         return id.trim();
     }
 
-    private String validateAccountNumber(String accountNumber) {
-        if (accountNumber == null || accountNumber.trim().isEmpty()) {
-            throw new IllegalArgumentException("Hesap numarası boş geçilemez");
-        }
-
-        return accountNumber.trim();
-    }
-
     private String generateIban() {
         Random random = new Random();
         StringBuilder sb = new StringBuilder();
         sb.append("TR");
         for(int i = 0; i < 24; i++) {
+            sb.append(random.nextInt(10));
+        }
+
+        return sb.toString();
+    }
+
+    private String generateAccountNumber() {
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder();
+
+        for(int i = 0; i < 12; i++) {
             sb.append(random.nextInt(10));
         }
 
@@ -73,18 +76,11 @@ public class Account {
     }
 
     public double getBalance() {
-        return balance;
-    }
-
-    public final void setBalance(double balance) {
-        if (balance < 0) {
-            throw new IllegalArgumentException("Bakiye negatif olamaz.");
-        }
-        this.balance = balance;
+        return this.balance;
     }
 
     public String getAccountNumber() {
-        return accountNumber;
+        return this.accountNumber;
     }
 
     public String getIban() {
