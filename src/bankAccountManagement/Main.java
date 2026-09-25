@@ -7,8 +7,8 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        SavingsAccount account = new SavingsAccount("19615734", "Mert", "Temizcan");
-        SavingsAccount targetAccount = new SavingsAccount("19214997", "Ramazan", "Demir");
+        SavingsAccount account = new SavingsAccount("Mert", "Temizcan");
+        SavingsAccount targetAccount = new SavingsAccount("Ramazan", "Demir");
 
         account.deposit(4000);
         targetAccount.deposit(3000);
