@@ -1,7 +1,4 @@
 package bankAccountManagement;
-import java.security.SecureRandom;
-import java.util.HashSet;
-import java.util.Set;
 
 public class Account {
 
@@ -11,63 +8,15 @@ public class Account {
     private double balance;
     private final String accountNumber;
     private final String iban;
-    private final static SecureRandom random = new SecureRandom();
-    private static final Set<String> usedIds = new HashSet<>();
-    private static final Set<String> usedIbans = new HashSet<>();
-    private static final Set<String> usedAccountNumbers = new HashSet<>();
 
 
     public Account(String name, String surname) {
-        this.id = generateId();
+        this.id = NumberGenerator.generateId();
         setName(name);
         setSurname(surname);
         this.balance = 0;
-        this.accountNumber = generateAccountNumber();
-        this.iban = generateIban();
-    }
-
-    private String generateId() {
-        String id;
-        do {
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < 11; i++) {
-                sb.append(random.nextInt(10));
-            }
-
-            id = sb.toString();
-        } while (usedIds.contains(id));
-        usedIds.add(id);
-        return id;
-    }
-
-    private String generateIban() {
-        String iban;
-        do {
-            StringBuilder sb = new StringBuilder();
-            sb.append("TR");
-
-            for(int i = 0; i < 24; i++) {
-                sb.append(random.nextInt(10));
-            }
-
-            iban = sb.toString();
-        } while (usedIbans.contains(iban));
-        usedIbans.add(iban);
-        return iban;
-    }
-
-    private String generateAccountNumber() {
-        String accountNumber;
-        do {
-            StringBuilder sb = new StringBuilder();
-            for(int i = 0; i < 11; i++) {
-                sb.append(random.nextInt(10));
-            }
-
-            accountNumber = sb.toString();
-        }  while (usedAccountNumbers.contains(accountNumber));
-        usedAccountNumbers.add(accountNumber);
-        return accountNumber;
+        this.accountNumber = NumberGenerator.generateAccountNumber();
+        this.iban = NumberGenerator.generateIban();
     }
 
     public String getId() {
