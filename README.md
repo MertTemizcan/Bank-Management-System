@@ -1,32 +1,54 @@
-# Bank-Management-System
-Bu proje; Nesne Yönelimli Programlama (OOP) prensiplerini gerçekçi bir senaryo üzerinde uygulamak ve Java dilindeki derinliğini pekiştirmek amacıyla geliştirilmiştir. Temel bir banka yönetim sistemini simüle eden uygulama, kullanıcıların hesap açma, para transferi ve bakiye yönetimi gibi işlemleri güvenli bir mimari üzerinden gerçekleştirmesini sağlar.
+# Bank Management System
 
-🚀 Proje Özellikleri
-Dinamik Menü Sistemi: Kullanıcıların çıkış yapana kadar işlem seçebildiği while döngüsü ve switch-case tabanlı etkileşimli konsol arayüzü.
+Bu proje; Nesne Yönelimli Programlama (OOP) ve Temiz Kod (Clean Code) prensiplerini gerçekçi bir bankacılık senaryosu üzerinde uygulamak amacıyla geliştirilmiş bir simülasyon sistemidir. 
 
-Gelişmiş Hesap Yönetimi: Standart hesaplar ve bonus puan kazandıran birikim hesapları (SavingsAccount) için ayrı işleme mantığı.
+Uygulama; finansal hassasiyet gerektiren veri tipleri, sorumlulukların ayrıştırılması (SRP), kod tekrarının önlenmesi (DRY) ve savunmacı programlama (defensive programming) yaklaşımları dikkate alınarak tasarlanmıştır.
 
-Bakiye Güvenliği: Negatif bakiye atamasını ve yetersiz bakiye ile işlem yapılmasını engelleyen kontrol mekanizmaları.
+---
 
-🛠 Teknik Mimari ve OOP Yaklaşımı
-Bu projede yazılımın sürdürülebilirliği ve güvenliği için şu temel prensipler uygulanmıştır:
+## 🚀 Öne Çıkan Özellikler
 
-Encapsulation (Kapsülleme): Tüm kritik veriler (ad, soyad, bakiye, hesap numarası) private olarak tanımlanmıştır. Verilere erişim ve veri manipülasyonu kontrollü Getter ve Setter metotları üzerinden sağlanarak veri bütünlüğü korunmuştur.
+* **Finansal Hassasiyet:** Finansal hesaplamalarda ve bakiye yönetiminde kayan noktalı sayı (`double`/`float`) hatalarını engellemek adına endüstri standardı olan `BigDecimal` veri yapısı kullanılmıştır.
+* **Benzersiz Numara Üretimi:** Kriptografik olarak güvenli rastgele sayı üretimi (`SecureRandom`) ve `Set` veri yapısıyla çakışmasız 11 haneli Müşteri No, Hesap No ve TR formatında IBAN üretimi sağlanır.
+* **Farklılaştırılmış Hesap Modelleri:** Temel hesap operasyonlarının yanı sıra para yatırma işlemlerinde bonus puan kazandıran Birikim Hesabı (`SavingsAccount`) kurgusu mevcuttur.
+* **Güvenli İşlem Doğrulaması:**
+  * Sıfır ve negatif tutarlı işlem girişimlerinin engellenmesi.
+  * Yetersiz bakiye durumlarında işlemin durdurulması.
+  * Geçersiz (`null`) veya kullanıcının kendi hesabına transfer yapma girişimlerinin engellenmesi.
+* **İnteraktif Konsol Arayüzü:** `Scanner` akışı üzerinden çalışan menü yönetimi ve işlem geri bildirimleri.
 
-Inheritance (Kalıtım): SavingsAccount sınıfı, Account ana sınıfından türetilmiştir. Bu sayede temel bankacılık fonksiyonları (sendMoney, withdrawMoney) tekrar yazılmadan miras alınmış, kodun tekrar edilebilirliği (DRY) artırılmıştır.
+---
 
-Method Overriding (Metot Ezme): Ana sınıfta bulunan showInfos metodu, SavingsAccount sınıfında @Override edilerek bu hesap türüne özgü olan "Bonus Puan" bilgisini de gösterecek şekilde özelleştirilmiştir.
+## 🛠️ Teknik Mimari ve Tasarım Prensipleri
 
-Constructor Overloading: Farklı parametre setleriyle hesap oluşturulmasına imkan tanıyan esnek yapıcı metotlar kullanılmıştır.
+* **Encapsulation (Kapsülleme):** Hesap kimlikleri, bakiye ve kullanıcı bilgileri `private` olarak sınırlandırılmış; iş kuralları ve veri manipülasyonu kontrollü metotlar (`withdraw`, `deposit`, `setName` vb.) üzerinden sağlanmıştır.
+* **Inheritance & Polymorphism:** `SavingsAccount` sınıfı, `Account` üst sınıfını genişleterek temel işlevleri devralmış; `deposit` ve `toString` metotlarını `@Override` ederek kendi iş mantığını (bonus puan mekanizması) işletmiştir.
+* **Single Responsibility (Tek Sorumluluk):** Benzersiz numara üretme algoritması ve kullanılan numaraların takibi `Account` sınıfından soyutlanarak bağımsız bir yardımcı sınıf olan `NumberGenerator` içerisine taşınmıştır.
+* **DRY (Don't Repeat Yourself):** ID, IBAN ve Hesap No üretimindeki ortak rakam dizilimi tek bir çekirdek metot üzerinden türetilerek kod tekrarı ortadan kaldırılmıştır.
+* **Exception Handling (Hata Yönetimi):** Geçersiz parametreler ve kural ihlallerinde (`IllegalArgumentException`, `IllegalStateException`) standart istisnalar fırlatılarak sistem stabilitesi korunmuştur.
 
-💻 Kullanılan Teknolojiler
-Dil: Java
+---
 
-IDE: Eclipse 
+## 🧱 Sınıf Yapısı
 
-📂 Kurulum ve Çalıştırma
-Bu repoyu bilgisayarınıza clone'layın: git clone [https://github.com/MertTemizcan/Bank-Management-System](https://github.com/MertTemizcan/Bank-Management-System)
+* **`Account`**: Müşteri bilgileri, IBAN, hesap numarası ve bakiye hareketlerini yöneten ana hesap modeli.
+* **`SavingsAccount`**: `Account` sınıfından türetilen ve para yatırma hareketlerinde bonus puan kazandıran birikim hesabı modeli.
+* **`NumberGenerator`**: Benzersiz ID, IBAN ve hesap numarası üreten yardımcı (utility) sınıf.
+* **`Main`**: Konsol menüsünü çalıştıran, kullanıcı etkileşimini ve girdi yönetimini sağlayan başlangıç noktası.
 
-Eclipse veya herhangi bir Java IDE'si ile projeyi açın.
+---
 
-Main.java dosyasını sağ tıklayıp "Run As > Java Application" seçeneğiyle çalıştırın.
+## 💻 Kullanılan Teknolojiler
+
+* **Dil:** Java (JDK 17+)
+* **Temel Yapılar:** Java Collections Framework (`Set`, `HashSet`), `java.math.BigDecimal`, `java.security.SecureRandom`
+
+---
+
+## 📂 Kurulum ve Çalıştırma
+
+1. Projeyi bilgisayarınıza klonlayın:
+   ```bash
+   git clone [https://github.com/MertTemizcan/Bank-Management-System.git](https://github.com/MertTemizcan/Bank-Management-System.git)
+
+2. Projeyi Çalıştırın
