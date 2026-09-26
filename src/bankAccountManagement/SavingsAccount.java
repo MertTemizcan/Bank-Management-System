@@ -1,5 +1,7 @@
 package bankAccountManagement;
 
+import java.math.BigDecimal;
+
 public class SavingsAccount extends Account {
 
     private double bonusPoint;
@@ -10,7 +12,7 @@ public class SavingsAccount extends Account {
     }
 
     @Override
-    public void deposit(double amount) {
+    public void deposit(BigDecimal amount) {
         super.deposit(amount);
         this.bonusPoint = getBonusPoint() + 5.0;
     }

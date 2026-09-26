@@ -1,5 +1,6 @@
 package bankAccountManagement;
 
+import java.math.BigDecimal;
 import java.util.Scanner;
 
 public class Main {
@@ -10,8 +11,8 @@ public class Main {
         SavingsAccount account = new SavingsAccount("Mert", "Temizcan");
         SavingsAccount targetAccount = new SavingsAccount("Ramazan", "Demir");
 
-        account.deposit(4000);
-        targetAccount.deposit(3000);
+        account.deposit(new BigDecimal("4000"));
+        targetAccount.deposit(new BigDecimal("3000"));
 
         boolean running = true;
 
@@ -35,13 +36,13 @@ public class Main {
                         break;
                     case 2:
                         System.out.print("Çekmek istediğiniz tutar: ");
-                        double withdrawAmount = scanner.nextDouble();
+                        BigDecimal withdrawAmount = scanner.nextBigDecimal();
                         account.withdraw(withdrawAmount);
                         System.out.printf("İşlem başarılı. Yeni bakiye: %.2f TL%n", account.getBalance());
                         break;
                     case 3:
                         System.out.print("Yatırmak istediğiniz tutar: ");
-                        double depositAmount = scanner.nextDouble();
+                        BigDecimal depositAmount = scanner.nextBigDecimal();
                         account.deposit(depositAmount);
                         System.out.printf("İşlem başarılı. Yeni bakiye: %.2f TL%n", account.getBalance());
                         break;
@@ -50,7 +51,7 @@ public class Main {
                         break;
                     case 5:
                         System.out.println("Transfer etmek istediğiniz tutarı giriniz: ");
-                        double transferAmount = scanner.nextDouble();
+                        BigDecimal transferAmount = scanner.nextBigDecimal();
                         account.transferTo(targetAccount, transferAmount);
                         System.out.printf("%s kişisine %.2f TL gönderildi. Güncel bakiyeniz: %.2f TL%n", targetAccount.getName(), transferAmount, account.getBalance());
                         break;
